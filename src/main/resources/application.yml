@@ -1,0 +1,56 @@
+application:
+  name: eventprocessor
+  version: 1.0
+
+management:
+  port: 7020
+  host: 0.0.0.0
+
+jmx:
+  rmi:
+    port: 7040
+    host: 0.0.0.0
+
+server:
+  port: 7060
+  address: 0.0.0.0
+
+# seconds
+metrics:
+  period: 600
+
+spring:
+  main:
+    webEnvironment: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    poolSize: 1
+    initialSize: 1
+    minIdle: 1
+    maxIdle: 1
+    maxActive: 1
+    url: jdbc:postgresql://k3-dcdb-1/dcdb
+    username: kiask
+    password: kiask
+  rabbitmq:
+    host: k3-mq-1
+    port: 5672
+    username: kiask
+    password: kiask
+    virtual-host: kiask
+
+kafka:
+  address: localhost:9092
+  topic:
+    message:
+      name: map_matching
+      group-id: k3-ep-group
+      client-id:  event-processor-1
+    event:
+       name:  eventdata
+notifications:
+  rabbit:
+    exchange:
+     name:  notification
+    queue:
+      name: k3.eventprocessor.1
